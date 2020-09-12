@@ -22,7 +22,7 @@ func listEstatesInPolygon(c echo.Context, coordinates Coordinates) ([]Estate, er
 
 func updateEstateCache() error {
 	estateCache = []Estate{}
-	err := db.Select(&estateCache, "SELECT id, thumbnail, name, description, latitude, longitude, address, rent, door_height, door_width, features, popularity FROM estate")
+	err := db.Select(&estateCache, "SELECT id, thumbnail, name, description, latitude, longitude, address, rent, door_height, door_width, features, popularity, rent_category FROM estate")
 	return err
 }
 
