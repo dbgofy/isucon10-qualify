@@ -17,3 +17,67 @@
 /home/isucon/*
 !/home/isucon/.bashrc
 
+# /home/isucon/isuumo/webapp/go/Makefile
+/*
+!/home
+/home/*
+!/home/isucon
+/home/isucon/*
+!/home/isucon/isuumo
+/home/isucon/isuumo/*
+!/home/isucon/isuumo/webapp
+/home/isucon/isuumo/webapp/*
+!/home/isucon/isuumo/webapp/go
+/home/isucon/isuumo/webapp/go/*
+!/home/isucon/isuumo/webapp/go/Makefile
+
+# /home/isucon/isuumo/webapp/go/go.mod
+/*
+!/home
+/home/*
+!/home/isucon
+/home/isucon/*
+!/home/isucon/isuumo
+/home/isucon/isuumo/*
+!/home/isucon/isuumo/webapp
+/home/isucon/isuumo/webapp/*
+!/home/isucon/isuumo/webapp/go
+/home/isucon/isuumo/webapp/go/*
+!/home/isucon/isuumo/webapp/go/go.mod
+
+# /home/isucon/isuumo/webapp/go/go.sum
+/*
+!/home
+/home/*
+!/home/isucon
+/home/isucon/*
+!/home/isucon/isuumo
+/home/isucon/isuumo/*
+!/home/isucon/isuumo/webapp
+/home/isucon/isuumo/webapp/*
+!/home/isucon/isuumo/webapp/go
+/home/isucon/isuumo/webapp/go/*
+!/home/isucon/isuumo/webapp/go/go.sum
+
+# /home/isucon/isuumo/webapp/go/main.go
+/*
+!/home
+/home/*
+!/home/isucon
+/home/isucon/*
+!/home/isucon/isuumo
+/home/isucon/isuumo/*
+!/home/isucon/isuumo/webapp
+/home/isucon/isuumo/webapp/*
+!/home/isucon/isuumo/webapp/go
+/home/isucon/isuumo/webapp/go/*
+!/home/isucon/isuumo/webapp/go/main.go
+
+# /home/isucon/env.sh
+/*
+!/home
+/home/*
+!/home/isucon
+/home/isucon/*
+!/home/isucon/env.sh
+
