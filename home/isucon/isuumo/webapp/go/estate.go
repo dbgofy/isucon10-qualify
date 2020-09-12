@@ -2,9 +2,12 @@ package main
 
 import (
 	"fmt"
+	"net/http"
 
 	"github.com/labstack/echo"
 )
+
+var estateCache []Estate
 
 func listEstatesInPolygon(c echo.Context, coordinates Coordinates) ([]Estate, error) {
 	estates := []Estate{}
@@ -15,4 +18,14 @@ func listEstatesInPolygon(c echo.Context, coordinates Coordinates) ([]Estate, er
 	c.Echo().Logger.Infof("query = %q", query)
 	err := db.Select(&estates, query)
 	return estates, err
+}
+
+func updateEstateCache() error {
+	estateCache = []Estate{}
+	err := db.Select(&estateCache, "SELECT id, thumbnail, name, description, latitude, longitude, address, rent, door_height, door_width, features, popularity FROM estate")
+	return err
+}
+
+func debugEstate(c echo.Context) error {
+	return c.JSON(http.StatusOK, estateCache)
 }
