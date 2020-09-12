@@ -52,6 +52,6 @@ CREATE TABLE isuumo.chair
     INDEX IX_chairs_stock_flag_height_range_id(stock_flag, height_range_id),
     INDEX IX_chairs_stock_flag_kind_popularity(stock_flag, kind, popularity),
     INDEX IX_chairs_stock_flag_height(stock_flag, height),
-    INDEX IX_chairs_stock_flag_color_popularity(stock_flag, color, popularity)
+    INDEX IX_chairs_stock_flag_color_popularity(stock_flag, color, popularity),
     INDEX IX_chairs_stock_flag_kind_popularity(stock_flag, kind, popularity)
 );

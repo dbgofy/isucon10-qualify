@@ -11,7 +11,7 @@ isuumo: *.go
 
 slow.log: /var/log/mysql/mysql-slow.sql
 	mysqldumpslow -s t $< > $@
-	cat $@ | slackcat -c slowlog
+	-cat $@ | slackcat -c slowlog
 
 rotate: slow.log
 	sudo rm -fr /var/log/mysql/mysql-slow.sql
