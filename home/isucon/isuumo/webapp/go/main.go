@@ -534,19 +534,8 @@ func searchRecommendedEstateWithChair(c echo.Context) error {
 	}
 
 	var estates []Estate
-	w := chair.Width
-	h := chair.Height
-	d := chair.Depth
-	chairMin := minInt(w, h, d)
-	chairMax := maxInt(w, h, d)
-	chairMid := w + h + d - chairMin - chairMax
-<<<<<<< HEAD
-	query = `SELECT * FROM estate JOIN door_geom USING id WHERE  ? < ST_X(g) AND ? < ST_Y(g) ORDER BY popularity DESC, id ASC LIMIT ?`
-	err = db.Select(&estates, query, chairMin, chairMid, Limit)
-=======
-	query = `SELECT id, thumbnail, name, description, latitude, longitude, address, rent, door_height, door_width, features, popularity FROM estate WHERE ST_X(g)  ST_Y(g) ORDER BY popularity DESC, id ASC LIMIT ?`
-	err = db.Select(&estates, query, chairMin, chairMid, chairMid, chairMin, Limit)
->>>>>>> origin
+	query = `SET @chair_geom = (SELECT AS_TEXT(g) FROM chair WHERE id = ?);SELECT id, thumbnail, name, description, latitude, longitude, address, rent, door_height, door_width, features, popularity FROM estate JOIN door_geom USING id WHERE  ST_CONTAINS(@chair_geom, g) ORDER BY popularity DESC, id ASC LIMIT ?`
+	err = db.Select(&estates, query, Limit)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			return c.JSON(http.StatusOK, EstateListResponse{[]Estate{}})
