@@ -6,7 +6,7 @@ INSERT INTO chair_geom
     id, 
     ST_AREA(
       ST_GEOMFROMTEXT(
-        CONCAT('POLYGON((',
+        CONCAT('POLYGON ((',
                 LEAST(height, width, depth), ' ', (height + width + depth - LEAST(height, width, depth) - GREATEST(height, width, depth)), ', ',
                 LEAST(height, width, depth), ' 1000, '
                 '1000 1000, ',
