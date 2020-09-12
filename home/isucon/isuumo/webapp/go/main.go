@@ -244,6 +244,9 @@ func main() {
 	e.GET("/api/estate/search/condition", getEstateSearchCondition)
 	e.GET("/api/recommended_estate/:id", searchRecommendedEstateWithChair)
 
+	// for debug
+	e.GET("/debug/estate", debugEstate)
+
 	mySQLConnectionData = NewMySQLConnectionEnv()
 
 	var err error
