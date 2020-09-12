@@ -248,6 +248,8 @@ func main() {
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 
+	e.Use(newrelicMiddleware())
+
 	// Initialize
 	e.POST("/initialize", initialize)
 
