@@ -6,6 +6,7 @@ Host isucon-bastion
 Host team162-001
   ProxyJump isucon-bastion
   HostName 10.161.62.101
+  LocalForward localhost:10080 localhost:80
   LocalForward localhost:10443 localhost:443
   LocalForward localhost:3000 localhost:3000
   User root
@@ -13,6 +14,7 @@ Host team162-001
 Host team162-002
   ProxyJump isucon-bastion
   HostName 10.161.62.102
+  LocalForward localhost:10080 localhost:80
   LocalForward localhost:10443 localhost:443
   LocalForward localhost:3000 localhost:3000
   User root
@@ -20,6 +22,7 @@ Host team162-002
 Host team162-003
   ProxyJump isucon-bastion
   HostName 10.161.62.103
+  LocalForward localhost:10080 localhost:80
   LocalForward localhost:10443 localhost:443
   LocalForward localhost:3000 localhost:3000
   User root
