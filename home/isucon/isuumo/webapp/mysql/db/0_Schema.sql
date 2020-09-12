@@ -48,10 +48,10 @@ CREATE TABLE isuumo.chair
     stock_flag      BOOLEAN      NOT NULL DEFAULT TRUE,
     price_range_id  INTEGER      NOT NULL DEFAULT -1,
     height_range_id INTEGER      NOT NULL DEFAULT -1,
-    INDEX IX_chairs_stock_flag_price(stock_flag, price),
-    INDEX IX_chairs_stock_flag_price_range_id(stock_flag, price_range_id),
-    INDEX IX_chairs_stock_flag_height_range_id(stock_flag, height_range_id),
+    INDEX IX_chairs_stock_flag_price_popularity(stock_flag, price, popularity),
+    INDEX IX_chairs_stock_flag_price_range_id_popularity(stock_flag, price_range_id, popularity),
+    INDEX IX_chairs_stock_flag_height_range_id_popularity(stock_flag, height_range_id, popularity),
     INDEX IX_chairs_stock_flag_kind_popularity(stock_flag, kind, popularity),
-    INDEX IX_chairs_stock_flag_height(stock_flag, height),
+    INDEX IX_chairs_stock_flag_height_popularity(stock_flag, height, popularity),
     INDEX IX_chairs_stock_flag_color_popularity(stock_flag, color, popularity)
 );
