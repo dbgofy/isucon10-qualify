@@ -122,20 +122,8 @@ func searchChairs(c echo.Context) error {
 	params := make([]interface{}, 0)
 
 	if c.QueryParam("priceRangeId") != "" {
-		chairPrice, err := getRange(chairSearchCondition.Price, c.QueryParam("priceRangeId"))
-		if err != nil {
-			c.Echo().Logger.Infof("priceRangeID invalid, %v : %v", c.QueryParam("priceRangeId"), err)
-			return c.NoContent(http.StatusBadRequest)
-		}
-
-		if chairPrice.Min != -1 {
-			conditions = append(conditions, "price >= ?")
-			params = append(params, chairPrice.Min)
-		}
-		if chairPrice.Max != -1 {
-			conditions = append(conditions, "price < ?")
-			params = append(params, chairPrice.Max)
-		}
+		conditions = append(conditions, "price_range_id = ?")
+		params = append(params, c.QueryParam("priceRangeId"))
 	}
 
 	if c.QueryParam("heightRangeId") != "" {
