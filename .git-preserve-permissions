@@ -54,9 +54,10 @@
 0644:0:0:home/isucon/isuumo/webapp/go/main.go
 0775:1100:1100:home/isucon/isuumo/webapp/mysql/db
 0775:1100:1100:home/isucon/isuumo/webapp/mysql
-0644:0:0:home/isucon/isuumo/webapp/mysql/db/0_Schema.sql
+0644:1100:1100:home/isucon/isuumo/webapp/mysql/db/0_Schema.sql
 0644:0:0:home/isucon/isuumo/webapp/mysql/db/1_DummyEstateData.sql
 0644:0:0:home/isucon/isuumo/webapp/mysql/db/2_DummyChairData.sql
+0644:1100:1100:home/isucon/isuumo/webapp/mysql/db/3_DummyEstateLocationData.sql
 0755:0:0:home/isucon/isuumo/webapp/mysql/db/init.sh
 0700:0:0:root/.ssh
 0700:0:0:root
