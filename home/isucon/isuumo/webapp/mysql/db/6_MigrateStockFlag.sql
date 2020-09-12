@@ -1,3 +1,17 @@
 use isuumo
 UPDATE chair SET stock_flag = stock > 0;
-ALTER TABLE chair ADD INDEX IX_chairs_stock_flag_price(stock_flag, price);
+
+INSERT INTO chair_geom 
+  SELECT 
+    id, 
+    ST_AREA(
+      ST_GEOMFROMTEXT(
+        CONCAT('POLYGON(',
+                  LEAST(height, width, depth), ' ', (height + width + depth - LEAST(height, width, depth) - GREATEST(height, width, depth)),
+                  LEAST(height, width, depth), ' 1000,'
+                  '1000 1000,',
+                  '1000 ', (height + width + depth - LEAST(height, width, depth) - GREATEST(height, width, depth)), ')'
+        )
+      )
+    )
+    FROM chair
