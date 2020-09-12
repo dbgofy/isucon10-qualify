@@ -368,6 +368,11 @@ func postEstate(c echo.Context) error {
 			c.Logger().Errorf("failed to insert estate: %v", err)
 			return c.NoContent(http.StatusInternalServerError)
 		}
+		_, err = tx.Exec("INSERT INTO estate_location(id, location) VALUES(?,POINT(?,?))", id, longitude, latitude)
+		if err != nil {
+			c.Logger().Errorf("failed to insert estate: %v", err)
+			return c.NoContent(http.StatusInternalServerError)
+		}
 	}
 	if err := tx.Commit(); err != nil {
 		c.Logger().Errorf("failed to commit tx: %v", err)

@@ -20,6 +20,13 @@ CREATE TABLE isuumo.estate
     popularity  INTEGER             NOT NULL
 );
 
+CREATE TABLE isuumo.estate_location
+(
+    id          INTEGER             NOT NULL PRIMARY KEY,
+		location    POINT               NOT NULL,
+    SPATIAL     INDEX(location)
+);
+
 CREATE TABLE isuumo.chair
 (
     id          INTEGER         NOT NULL PRIMARY KEY,
