@@ -20,7 +20,6 @@ CREATE TABLE isuumo.estate
     popularity  INTEGER             NOT NULL,
     rent_category INTEGER NOT NULL DEFAULT 0,
     INDEX       IX_estate_rent_id(rent, id),
-    INDEX       IX_estate_rent_popularity(rent, popularity)
     INDEX       IX_estate_rent_category_popularity(rent_category, popularity)
 );
 
