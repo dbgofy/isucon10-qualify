@@ -109,6 +109,11 @@ func postChair(c echo.Context) error {
 			c.Logger().Errorf("failed to insert chair: %v", err)
 			return c.NoContent(http.StatusInternalServerError)
 		}
+		_, err = tx.Exec("SET @height = ?; SET @width = ?; SET @depth = ?;INSERT INTO chair_geom(id, g) VALUES(?, ST_GEOMFROMTEXT( CONCAT('POLYGON ((', LEAST(@height, @width, @depth), ' ', (@height + @width + @depth - LEAST(@height, @width, @depth) - GREATEST(@height, @width, @depth)), ', ', LEAST(@height, @width, @depth), ' 1000, ' '1000 1000, ', '1000 ', (@height + @width + @depth - LEAST(@height, @width, @depth) - GREATEST(@height, @width, @depth)), ', ', LEAST(@height, @width, @depth), ' ', (@height + @width + @depth - LEAST(@height, @width, @depth) - GREATEST(@height, @width, @depth)), '))'))")
+		if err != nil {
+			c.Logger().Errorf("failed to insert chair: %v", err)
+			return c.NoContent(http.StatusInternalServerError)
+		}
 	}
 	if err := tx.Commit(); err != nil {
 		c.Logger().Errorf("failed to commit tx: %v", err)
