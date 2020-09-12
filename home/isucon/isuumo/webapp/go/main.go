@@ -10,6 +10,7 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"sort"
 	"strconv"
 	"strings"
 
@@ -494,16 +495,37 @@ func searchEstates(c echo.Context) error {
 	}
 
 	estates := []Estate{}
-	params = append(params, perPage, page*perPage)
-	err = db.Select(&estates, searchQuery+searchCondition+limitOffset, params...)
-	if err != nil {
-		if err == sql.ErrNoRows {
-			return c.JSON(http.StatusOK, EstateSearchResponse{Count: 0, Estates: []Estate{}})
+	switch searchCondition {
+	case "rent_category = ?":
+		rentRangeID := c.QueryParam("rentRangeId")
+		for _, e := range estateCache {
+			if strconv.Itoa(int(e.RentCategory)) == rentRangeID {
+				estates = append(estates, e.Estate())
+			}
 		}
-		c.Logger().Errorf("searchEstates DB execution error : %v", err)
-		return c.NoContent(http.StatusInternalServerError)
+		sort.Slice(estates, func(i, j int) bool {
+			if estates[i].Popularity == estates[j].Popularity {
+				return estates[i].ID < estates[j].ID
+			}
+			return estates[i].Popularity > estates[j].Popularity
+		})
+		left := perPage
+		right := left + page*perPage
+		if right > len(estates) {
+			right = len(estates)
+		}
+		estates = estates[left:right]
+	default:
+		params = append(params, perPage, page*perPage)
+		err = db.Select(&estates, searchQuery+searchCondition+limitOffset, params...)
+		if err != nil {
+			if err == sql.ErrNoRows {
+				return c.JSON(http.StatusOK, EstateSearchResponse{Count: 0, Estates: []Estate{}})
+			}
+			c.Logger().Errorf("searchEstates DB execution error : %v", err)
+			return c.NoContent(http.StatusInternalServerError)
+		}
 	}
-
 	res.Estates = estates
 
 	return c.JSON(http.StatusOK, res)
