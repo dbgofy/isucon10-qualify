@@ -555,7 +555,7 @@ func searchEstateNazotte(c echo.Context) error {
 		return c.NoContent(http.StatusBadRequest)
 	}
 
-	estatesInPolygon, err := listEstatesInPolygon(coordinates)
+	estatesInPolygon, err := listEstatesInPolygon(c, coordinates)
 	if err == sql.ErrNoRows {
 		c.Echo().Logger.Infof("select * from estate where latitude ...", err)
 		return c.JSON(http.StatusOK, EstateSearchResponse{Count: 0, Estates: []Estate{}})
