@@ -363,7 +363,23 @@ func postEstate(c echo.Context) error {
 			c.Logger().Errorf("failed to read record: %v", err)
 			return c.NoContent(http.StatusBadRequest)
 		}
-		_, err := tx.Exec("INSERT INTO estate(id, name, description, thumbnail, address, latitude, longitude, rent, door_height, door_width, features, popularity, door_min, door_max) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)", id, name, description, thumbnail, address, latitude, longitude, rent, doorHeight, doorWidth, features, popularity, int(minInt(int64(doorHeight), int64(doorHeight), int64(doorWidth))), int(maxInt(int64(doorHeight), int64(doorHeight), int64(doorWidth))))
+		_, err := tx.Exec(
+			"INSERT INTO estate(id, name, description, thumbnail, address, latitude, longitude, rent, door_height, door_width, features, popularity, door_min, door_max) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+			id,
+			name,
+			description,
+			thumbnail,
+			address,
+			latitude,
+			longitude,
+			rent,
+			doorHeight,
+			doorWidth,
+			features,
+			popularity,
+			minInt(doorHeight, doorHeight, doorWidth),
+			maxInt(doorHeight, doorHeight, doorWidth),
+		)
 		if err != nil {
 			c.Logger().Errorf("failed to insert estate: %v", err)
 			return c.NoContent(http.StatusInternalServerError)
@@ -519,9 +535,9 @@ func searchRecommendedEstateWithChair(c echo.Context) error {
 	}
 
 	var estates []Estate
-	w := chair.Width
-	h := chair.Height
-	d := chair.Depth
+	w := int(chair.Width)
+	h := int(chair.Height)
+	d := int(chair.Depth)
 	chairMin := minInt(w, h, d)
 	chairMax := maxInt(w, h, d)
 	chairMid := w + h + d - chairMin - chairMax
@@ -666,7 +682,7 @@ func (cs Coordinates) coordinatesToText() string {
 	return fmt.Sprintf("'POLYGON((%s))'", strings.Join(points, ","))
 }
 
-func minInt(a, b, c int64) int64 {
+func minInt(a, b, c int) int {
 	if a < b && b < c {
 		return a
 	} else if b < c {
@@ -676,7 +692,7 @@ func minInt(a, b, c int64) int64 {
 	}
 }
 
-func maxInt(a, b, c int64) int64 {
+func maxInt(a, b, c int) int {
 	if a < c && b < c {
 		return c
 	} else if b < a {
