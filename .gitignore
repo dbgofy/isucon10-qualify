@@ -91,3 +91,13 @@
 /etc/mysql/conf.d/*
 !/etc/mysql/conf.d/my.cnf
 
+# /etc/nginx/sites-available/isuumo.conf
+/*
+!/etc
+/etc/*
+!/etc/nginx
+/etc/nginx/*
+!/etc/nginx/sites-available
+/etc/nginx/sites-available/*
+!/etc/nginx/sites-available/isuumo.conf
+
