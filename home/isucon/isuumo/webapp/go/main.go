@@ -562,7 +562,7 @@ func searchRecommendedEstateWithChair(c echo.Context) error {
 	}
 
 	var estates []Estate
-	query = `SELECT id, thumbnail, name, description, latitude, longitude, address, rent, door_height, door_width, features, popularity FROM estate JOIN door_geom USING (id) WHERE ST_CONTAINS((SELECT ST_ASTEXT(g) FROM chair_geom WHERE id = ?), g) ORDER BY popularity DESC, id ASC LIMIT ?`
+	query = `SELECT id, thumbnail, name, description, latitude, longitude, address, rent, door_height, door_width, features, popularity FROM estate JOIN door_geom USING (id) WHERE ST_CONTAINS((SELECT g FROM chair_geom WHERE id = ?), g) ORDER BY popularity DESC, id ASC LIMIT ?`
 	err = db.Select(&estates, query, id, Limit)
 	if err != nil {
 		if err == sql.ErrNoRows {
