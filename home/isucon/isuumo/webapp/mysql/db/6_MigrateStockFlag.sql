@@ -8,4 +8,9 @@ UPDATE chair SET price_range_id = CASE
   WHEN 9000 <= price AND price < 12000 THEN 3
   WHEN 12000 <= price AND price < 15000 THEN 4
   WHEN 15000 <= price THEN 5
+END, height_range_id = CASE
+  WHEN height < 80 THEN 0
+  WHEN 80 <= height AND height < 110 THEN 1
+  WHEN 110 <= height AND height < 150 THEN 2
+  WHEN 150 <= height THEN 3
 END;
