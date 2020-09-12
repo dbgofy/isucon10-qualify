@@ -7,7 +7,23 @@ import (
 	"github.com/labstack/echo"
 )
 
-var estateCache []Estate
+type EstateCache struct {
+	ID           int64   `db:"id" json:"id"`
+	Thumbnail    string  `db:"thumbnail" json:"thumbnail"`
+	Name         string  `db:"name" json:"name"`
+	Description  string  `db:"description" json:"description"`
+	Latitude     float64 `db:"latitude" json:"latitude"`
+	Longitude    float64 `db:"longitude" json:"longitude"`
+	Address      string  `db:"address" json:"address"`
+	Rent         int64   `db:"rent" json:"rent"`
+	DoorHeight   int64   `db:"door_height" json:"doorHeight"`
+	DoorWidth    int64   `db:"door_width" json:"doorWidth"`
+	Features     string  `db:"features" json:"features"`
+	Popularity   int64   `db:"popularity" json:"-"`
+	RentCategory int64   `db:"rent_category" json:"-"`
+}
+
+var estateCache []EstateCache
 
 func listEstatesInPolygon(c echo.Context, coordinates Coordinates) ([]Estate, error) {
 	estates := []Estate{}
@@ -21,11 +37,28 @@ func listEstatesInPolygon(c echo.Context, coordinates Coordinates) ([]Estate, er
 }
 
 func updateEstateCache() error {
-	estateCache = []Estate{}
+	estateCache = []EstateCache{}
 	err := db.Select(&estateCache, "SELECT id, thumbnail, name, description, latitude, longitude, address, rent, door_height, door_width, features, popularity, rent_category FROM estate")
 	return err
 }
 
 func debugEstate(c echo.Context) error {
 	return c.JSON(http.StatusOK, estateCache)
+}
+
+func (c *EstateCache) Estate() Estate {
+	return Estate{
+		ID:          c.ID,
+		Thumbnail:   c.Thumbnail,
+		Name:        c.Name,
+		Description: c.Description,
+		Latitude:    c.Latitude,
+		Longitude:   c.Longitude,
+		Address:     c.Address,
+		Rent:        c.Rent,
+		DoorHeight:  c.DoorHeight,
+		DoorWidth:   c.DoorWidth,
+		Features:    c.Features,
+		Popularity:  c.Popularity,
+	}
 }
