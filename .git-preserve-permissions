@@ -23,6 +23,7 @@
 0644:0:0:files/hosts/team162-002
 0644:0:0:files/hosts/team162-003
 0755:0:0:files/pubkey
+0644:0:0:files/pubkey/team162-001
 0644:0:0:files/pubkey/team162-002
 0644:0:0:files/pubkey/team162-003
 0644:0:0:files/vimrc
