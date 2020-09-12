@@ -649,6 +649,14 @@ func (cs Coordinates) coordinatesToText() string {
 	return fmt.Sprintf("'POLYGON((%s))'", strings.Join(points, ","))
 }
 
+func (cs Coordinates) coordinatesToText2() string {
+	points := make([]string, 0, len(cs.Coordinates))
+	for _, c := range cs.Coordinates {
+		points = append(points, fmt.Sprintf("%f %f", c.Longitude, c.Latitude))
+	}
+	return fmt.Sprintf("'POLYGON((%s))'", strings.Join(points, ","))
+}
+
 func minInt(a, b, c int64) int64 {
 	if a < b && b < c {
 		return a
