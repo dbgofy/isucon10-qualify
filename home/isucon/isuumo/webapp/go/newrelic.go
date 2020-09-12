@@ -3,7 +3,7 @@ package main
 import (
 	"os"
 
-	"github.com/labstack/echo"
+	"github.com/labstack/echo/v4"
 	"github.com/newrelic/go-agent/v3/newrelic"
 )
 
@@ -23,13 +23,16 @@ func newrelicMiddleware() echo.MiddlewareFunc {
 			txn := app.StartTransaction(c.Request().Method + " " + c.Path())
 			defer txn.End()
 
-			txn.SetWebResponse(c.Response().Writer)
+			w := txn.SetWebResponse(c.Response().Writer)
 			r := c.Request()
 			txn.SetWebRequestHTTP(r)
 
 			r = newrelic.RequestWithTransactionContext(r, txn)
 
 			c.Set(NEWRELIC_TXN, txn)
+
+			c.SetRequest(r)
+			c.SetResponse(echo.NewResponse(w, c.Echo()))
 
 			err := next(c)
 			if err != nil {
