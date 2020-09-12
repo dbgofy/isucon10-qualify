@@ -287,7 +287,6 @@ func initialize(c echo.Context) error {
 	})
 }
 
-
 func getEstateDetail(c echo.Context) error {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
@@ -523,8 +522,11 @@ func searchRecommendedEstateWithChair(c echo.Context) error {
 	w := chair.Width
 	h := chair.Height
 	d := chair.Depth
-	query = `SELECT * FROM estate WHERE (door_width >= ? AND door_height >= ?) OR (door_width >= ? AND door_height >= ?) OR (door_width >= ? AND door_height >= ?) OR (door_width >= ? AND door_height >= ?) OR (door_width >= ? AND door_height >= ?) OR (door_width >= ? AND door_height >= ?) ORDER BY popularity DESC, id ASC LIMIT ?`
-	err = db.Select(&estates, query, w, h, w, d, h, w, h, d, d, w, d, h, Limit)
+	chairMin := minInt(w, h, d)
+	chairMax := maxInt(w, h, d)
+	chairMid := w + h + d - chairMin - chairMax
+	query = `SELECT * FROM estate WHERE (door_width >= ? AND door_height >= ?) OR (door_width >= ? AND door_height >= ?) ORDER BY popularity DESC, id ASC LIMIT ?`
+	err = db.Select(&estates, query, chairMin, chairMid, chairMid, chairMin, Limit)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			return c.JSON(http.StatusOK, EstateListResponse{[]Estate{}})
@@ -662,4 +664,24 @@ func (cs Coordinates) coordinatesToText() string {
 		points = append(points, fmt.Sprintf("%f %f", c.Latitude, c.Longitude))
 	}
 	return fmt.Sprintf("'POLYGON((%s))'", strings.Join(points, ","))
+}
+
+func minInt(a, b, c int64) int64 {
+	if a < b && b < c {
+		return a
+	} else if b < c {
+		return b
+	} else {
+		return c
+	}
+}
+
+func maxInt(a, b, c int64) int64 {
+	if a < c && b < c {
+		return c
+	} else if b < a {
+		return a
+	} else {
+		return b
+	}
 }
