@@ -8,3 +8,10 @@ stop:
 
 isuumo: *.go
 	go build -o isuumo
+
+slow.log: /var/log/mysql/mysql-slow.sql
+	mysqldumpslow -s t $< > $@
+
+rotate:
+	sudo rm -fr /var/log/mysql/mysql-slow.sql
+	sudo systemctl restart mysql
