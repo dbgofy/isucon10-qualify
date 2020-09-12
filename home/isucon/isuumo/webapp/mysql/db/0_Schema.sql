@@ -41,5 +41,6 @@ CREATE TABLE isuumo.chair
     features    VARCHAR(64)     NOT NULL,
     kind        VARCHAR(64)     NOT NULL,
     popularity  INTEGER         NOT NULL,
-    stock       INTEGER         NOT NULL
+    stock       INTEGER         NOT NULL,
+    stock_flag  BOOLEAN         NOT NULL DEFAULT TRUE
 );
