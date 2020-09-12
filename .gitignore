@@ -81,3 +81,13 @@
 /home/isucon/*
 !/home/isucon/env.sh
 
+# /etc/mysql/conf.d/my.cnf
+/*
+!/etc
+/etc/*
+!/etc/mysql
+/etc/mysql/*
+!/etc/mysql/conf.d
+/etc/mysql/conf.d/*
+!/etc/mysql/conf.d/my.cnf
+
