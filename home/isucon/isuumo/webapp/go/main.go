@@ -376,6 +376,13 @@ func postEstate(c echo.Context) error {
 			c.Logger().Errorf("failed to insert estate: %v", err)
 			return c.NoContent(http.StatusInternalServerError)
 		}
+
+		_, err = tx.Exec("INSERT INTO door_geom(id, g) VALUES(?,POINT(LEATEST(?,?), GREATEST(?,?))", id, doorHeight, doorWidth, doorHeight, doorWidth)
+		if err != nil {
+			c.Logger().Errorf("failed to insert estate: %v", err)
+			return c.NoContent(http.StatusInternalServerError)
+		}
+
 	}
 	if err := tx.Commit(); err != nil {
 		c.Logger().Errorf("failed to commit tx: %v", err)
@@ -533,8 +540,8 @@ func searchRecommendedEstateWithChair(c echo.Context) error {
 	chairMin := minInt(w, h, d)
 	chairMax := maxInt(w, h, d)
 	chairMid := w + h + d - chairMin - chairMax
-	query = `SELECT * FROM estate WHERE (door_width >= ? AND door_height >= ?) OR (door_width >= ? AND door_height >= ?) ORDER BY popularity DESC, id ASC LIMIT ?`
-	err = db.Select(&estates, query, chairMin, chairMid, chairMid, chairMin, Limit)
+	query = `SELECT * FROM estate JOIN door_geom USING id WHERE  ? < ST_X(g) AND ? < ST_Y(g) ORDER BY popularity DESC, id ASC LIMIT ?`
+	err = db.Select(&estates, query, chairMin, chairMid, Limit)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			return c.JSON(http.StatusOK, EstateListResponse{[]Estate{}})
