@@ -525,8 +525,8 @@ func searchRecommendedEstateWithChair(c echo.Context) error {
 	chairMin := minInt(w, h, d)
 	chairMax := maxInt(w, h, d)
 	chairMid := w + h + d - chairMin - chairMax
-	query = `SELECT * FROM estate WHERE (door_width >= ? AND door_height >= ?) OR (door_width >= ? AND door_height >= ?) ORDER BY popularity DESC, id ASC LIMIT ?`
-	err = db.Select(&estates, query, chairMin, chairMid, chairMid, chairMin, Limit)
+	query = `SELECT * FROM estate WHERE (door_min >= ? AND door_max >= ?) ORDER BY popularity DESC, id ASC LIMIT ?`
+	err = db.Select(&estates, query, chairMin, chairMid, Limit)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			return c.JSON(http.StatusOK, EstateListResponse{[]Estate{}})
