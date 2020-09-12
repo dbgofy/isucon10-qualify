@@ -265,6 +265,7 @@ func initialize(c echo.Context) error {
 		filepath.Join(sqlDir, "1_DummyEstateData.sql"),
 		filepath.Join(sqlDir, "2_DummyChairData.sql"),
 		filepath.Join(sqlDir, "4_DummyEstateLocationData.sql"),
+		filepath.Join(sqlDir, "6_MigrateStockFlag.sql"),
 	}
 
 	for _, p := range paths {
@@ -513,7 +514,7 @@ func searchRecommendedEstateWithChair(c echo.Context) error {
 	}
 
 	chair := Chair{}
-	query := `SELECT * FROM chair WHERE id = ?`
+	query := `SELECT id, name, description, thumbnail, price, height, width, depth, color, features, kind, popularity, stock FROM chair WHERE id = ?`
 	err = db.Get(&chair, query, id)
 	if err != nil {
 		if err == sql.ErrNoRows {

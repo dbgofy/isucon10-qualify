@@ -44,7 +44,7 @@ func getChairDetail(c echo.Context) error {
 	}
 
 	chair := Chair{}
-	query := `SELECT * FROM chair WHERE id = ?`
+	query := `SELECT id, name, description, thumbnail, price, height, width, depth, color, features, kind, popularity, stock FROM chair WHERE id = ?`
 	err = db.Get(&chair, query, id)
 	if err != nil {
 		if err == sql.ErrNoRows {
@@ -211,7 +211,7 @@ func searchChairs(c echo.Context) error {
 		return c.NoContent(http.StatusBadRequest)
 	}
 
-	conditions = append(conditions, "stock > 0")
+	conditions = append(conditions, "stock_flag = TRUE")
 
 	page, err := strconv.Atoi(c.QueryParam("page"))
 	if err != nil {
@@ -225,8 +225,8 @@ func searchChairs(c echo.Context) error {
 		return c.NoContent(http.StatusBadRequest)
 	}
 
-	searchQuery := "SELECT * FROM chair WHERE "
-	countQuery := "SELECT COUNT(*) FROM chair WHERE "
+	searchQuery := "SELECT id, name, description, thumbnail, price, height, width, depth, color, features, kind, popularity, stock FROM chair WHERE "
+	countQuery := "SELECT COUNT(1) FROM chair WHERE "
 	searchCondition := strings.Join(conditions, " AND ")
 	limitOffset := " ORDER BY popularity DESC, id ASC LIMIT ? OFFSET ?"
 
@@ -280,7 +280,7 @@ func buyChair(c echo.Context) error {
 	defer tx.Rollback()
 
 	var chair Chair
-	err = tx.QueryRowx("SELECT * FROM chair WHERE id = ? AND stock > 0 FOR UPDATE", id).StructScan(&chair)
+	err = tx.QueryRowx("SELECT id, name, description, thumbnail, price, height, width, depth, color, features, kind, popularity, stock FROM chair WHERE id = ? AND stock_flag = TRUE FOR UPDATE", id).StructScan(&chair)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			c.Echo().Logger.Infof("buyChair chair id \"%v\" not found", id)
@@ -290,7 +290,7 @@ func buyChair(c echo.Context) error {
 		return c.NoContent(http.StatusInternalServerError)
 	}
 
-	_, err = tx.Exec("UPDATE chair SET stock = stock - 1 WHERE id = ?", id)
+	_, err = tx.Exec("UPDATE chair SET stock = ?, stock_flag = ? > 0 WHERE id = ?", chair.Stock-1, chair.Stock-1, id)
 	if err != nil {
 		c.Echo().Logger.Errorf("chair stock update failed : %v", err)
 		return c.NoContent(http.StatusInternalServerError)
@@ -311,7 +311,7 @@ func getChairSearchCondition(c echo.Context) error {
 
 func getLowPricedChair(c echo.Context) error {
 	var chairs []Chair
-	query := `SELECT * FROM chair WHERE stock > 0 ORDER BY price ASC, id ASC LIMIT ?`
+	query := `SELECT id, name, description, thumbnail, price, height, width, depth, color, features, kind, popularity, stock FROM chair WHERE stock_flag = TRUE ORDER BY price ASC, id ASC LIMIT ?`
 	err := db.Select(&chairs, query, Limit)
 	if err != nil {
 		if err == sql.ErrNoRows {
