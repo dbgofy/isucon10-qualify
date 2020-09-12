@@ -17,7 +17,9 @@ CREATE TABLE isuumo.estate
     door_height INTEGER             NOT NULL,
     door_width  INTEGER             NOT NULL,
     features    VARCHAR(64)         NOT NULL,
-    popularity  INTEGER             NOT NULL
+    popularity  INTEGER             NOT NULL,
+    door_min    INTEGER NOT NULL DEFAULT 0,
+    door_max    INTEGER NOT NULL DEFAULT 0
 );
 
 CREATE TABLE isuumo.estate_location
