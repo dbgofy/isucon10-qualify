@@ -265,6 +265,7 @@ func initialize(c echo.Context) error {
 		filepath.Join(sqlDir, "1_DummyEstateData.sql"),
 		filepath.Join(sqlDir, "2_DummyChairData.sql"),
 		filepath.Join(sqlDir, "4_DummyEstateLocationData.sql"),
+		filepath.Join(sqlDir, "5_DummyDoorGeometryData.sql"),
 		filepath.Join(sqlDir, "6_MigrateStockFlag.sql"),
 	}
 

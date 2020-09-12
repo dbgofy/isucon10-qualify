@@ -25,7 +25,7 @@ CREATE TABLE isuumo.estate
 CREATE TABLE isuumo.door_geom
 (
     id          INTEGER             NOT NULL PRIMARY KEY,
-    g           GEOMETRY            NOT NULL,
+    g           POINT               NOT NULL,
     SPATIAL INDEX(g)
 );
 
