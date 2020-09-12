@@ -243,6 +243,9 @@ func main() {
 	e.GET("/api/estate/search/condition", getEstateSearchCondition)
 	e.GET("/api/recommended_estate/:id", searchRecommendedEstateWithChair)
 
+	// for debug
+	e.GET("/debug/estate", debugEstate)
+
 	mySQLConnectionData = NewMySQLConnectionEnv()
 
 	var err error
@@ -282,6 +285,11 @@ func initialize(c echo.Context) error {
 			c.Logger().Errorf("Initialize script error : %v", err)
 			return c.NoContent(http.StatusInternalServerError)
 		}
+	}
+
+	if err := updateEstateCache(); err != nil {
+		c.Logger().Errorf("updateEstateCache() : %v", err)
+		return c.NoContent(http.StatusInternalServerError)
 	}
 
 	return c.JSON(http.StatusOK, InitializeResponse{
@@ -324,6 +332,12 @@ func getRange(cond RangeCondition, rangeID string) (*Range, error) {
 }
 
 func postEstate(c echo.Context) error {
+	defer func() {
+		if err := updateEstateCache(); err != nil {
+			c.Logger().Errorf("failed to update estate cache: %v", err)
+		}
+	}()
+
 	header, err := c.FormFile("estates")
 	if err != nil {
 		c.Logger().Errorf("failed to get form file: %v", err)
