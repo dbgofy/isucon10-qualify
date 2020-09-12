@@ -30,6 +30,7 @@ CREATE TABLE isuumo.door_geom
 );
 
 CREATE TABLE isuumo.chair_geom
+(
     id          INTEGER             NOT NULL PRIMARY KEY,
     g           GEOMETRY            NOT NULL,
     SPATIAL INDEX(g)
