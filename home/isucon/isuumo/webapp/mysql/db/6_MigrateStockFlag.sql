@@ -10,7 +10,8 @@ INSERT INTO chair_geom
                 LEAST(height, width, depth), ' ', (height + width + depth - LEAST(height, width, depth) - GREATEST(height, width, depth)), ', ',
                 LEAST(height, width, depth), ' 1000, '
                 '1000 1000, ',
-                '1000 ', (height + width + depth - LEAST(height, width, depth) - GREATEST(height, width, depth)), '))')
+                '1000 ', (height + width + depth - LEAST(height, width, depth) - GREATEST(height, width, depth)), ', ',
+                LEAST(height, width, depth), ' ', (height + width + depth - LEAST(height, width, depth) - GREATEST(height, width, depth)), '))'
       )
     )
     FROM chair;
