@@ -1,3 +1,3 @@
 use isuumo
-UPDATE chairs SET stock_flag = stock > 0;
+UPDATE chair SET stock_flag = stock > 0;
 ALTER TABLE chairs ADD INDEX IX_chairs_stock_flag_price(stock_flag, price);
