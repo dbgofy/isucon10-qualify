@@ -1,0 +1,1 @@
+INSERT INTO isuumo.door_geom SELECT id, POLYGON(POINT(0, 0), POINT(0, MIN(door_height, door_width)), POINT(0, MAX(door_heigh, door_max)), POINT(MIN(door_heigh, door_width), MAX(door_height, door_width))) FROM isuumo.estate;

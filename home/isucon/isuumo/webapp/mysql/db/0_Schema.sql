@@ -22,6 +22,13 @@ CREATE TABLE isuumo.estate
     INDEX       IX_estate_rent_popularity(rent, popularity)
 );
 
+CREATE TABLE isuumo.door_geom
+(
+    id          INTEGER             NOT NULL PRIMARY KEY,
+    g           GEOMETRY            NOT NULL,
+    SPATIAL INDEX(g)
+);
+
 CREATE TABLE isuumo.estate_location
 (
     id          INTEGER             NOT NULL PRIMARY KEY,
