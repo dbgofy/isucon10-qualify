@@ -377,7 +377,7 @@ func postEstate(c echo.Context) error {
 			return c.NoContent(http.StatusInternalServerError)
 		}
 
-		_, err = tx.Exec("INSERT INTO door_geom(id, g) VALUES(?,POINT(LEATEST(?,?), GREATEST(?,?))", id, doorHeight, doorWidth, doorHeight, doorWidth)
+		_, err = tx.Exec("INSERT INTO door_geom(id, g) VALUES(?,POINT(?,?))", id, minInt(doorHeight, doorWidth, doorWidth), maxInt(doorHeight, doorWidth, doorWidth))
 		if err != nil {
 			c.Logger().Errorf("failed to insert estate: %v", err)
 			return c.NoContent(http.StatusInternalServerError)
