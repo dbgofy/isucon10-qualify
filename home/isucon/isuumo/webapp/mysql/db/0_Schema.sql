@@ -45,5 +45,9 @@ CREATE TABLE isuumo.chair
     kind        VARCHAR(64)     NOT NULL,
     popularity  INTEGER         NOT NULL,
     stock       INTEGER         NOT NULL,
-    stock_flag  BOOLEAN         NOT NULL DEFAULT TRUE
+    stock_flag  BOOLEAN         NOT NULL DEFAULT TRUE,
+    INDEX IX_chairs_stock_flag_price(stock_flag, price),
+    INDEX IX_chairs_stock_flag_kind_popularity(stock_flag, kind, popularity),
+    INDEX IX_chairs_stock_flag_height(stock_flag, height),
+    INDEX IX_chairs_stock_flag_color_popularity(stock_flag, color, popularity)
 );
